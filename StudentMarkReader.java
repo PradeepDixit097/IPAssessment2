@@ -156,6 +156,20 @@ public class StudentMarkReader {
         }
         return count;
     }
+    
+        public static void threshold(int count, Student[] students) {
+        //F3 input the threshold and print thr info of student whose total is less than threshold
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the threshold for total marks: ");
+        double threshold = scanner.nextDouble();
+
+        // Print students below the threshold
+        for (int i = 0; i < count; i++) {
+            if (students[i].total < threshold) {
+                System.out.println(students[i]);
+            }
+        }
+    }
         
     }
 
