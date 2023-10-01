@@ -45,7 +45,8 @@ class Student {
 public class StudentMarkReader {
     public static void main(String[] args) {
         
-        String fileName = "C:\\Users\\User\\Desktop\\prog5001_students_grade_2022.txt"; // Replace with your file path
+        
+        String fileName = "C:\\Users\\User\\Documents\\NetBeansProjects\\assignement\\src\\main\\java\\com\\mycompany\\assignement\\prog5001_students_grade_2022.txt"; // Replace with your file path
         Student[] students = new Student[100];
         int count = 0;
         //Ask user number from 1 to 4 
@@ -124,7 +125,37 @@ public class StudentMarkReader {
 
     }
 
+    public static int second(String fileName, int count, Student[] students) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String line;
 
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty() && !line.trim().startsWith("Unit:") && !line.contains("Last Name")) {
+
+                    // Process student information
+                    String[] parts = line.split("\\s{2,}");
+                    String lastName = parts[0];
+                    String firstName = parts[1];
+                    String studentID = parts[2];
+                    double[] assessmentMarks = new double[3];
+
+                    for (int i = 0; i < 3; i++) {
+                        assessmentMarks[i] = (i + 3 < parts.length) ? Double.parseDouble(parts[i + 3]) : 0.0;
+                    }
+
+                    Student student = new Student(lastName, firstName, studentID, assessmentMarks);
+                    System.out.println(student);
+                    students[count++] = student;
+                }
+            }
+            //Checking count value
+            //System.out.println(count);
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+        return count;
+    }
         
     }
 
