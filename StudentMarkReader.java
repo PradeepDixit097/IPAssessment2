@@ -1,22 +1,22 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
  
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Scanner;
 
-class Student {
+class Student implements Comparable<Student> {
+
     String lastName;
     String firstName;
     String studentID;
     double[] assessmentMarks;
     double total;
+    int a;
 
     public Student(String lastName, String firstName, String studentID, double[] assessmentMarks) {
         this.lastName = lastName;
@@ -35,18 +35,30 @@ class Student {
 
     @Override
     public String toString() {
-        return "Name: " + firstName + " " + lastName +
-                ", Student ID: " + studentID +
-                ", Assessment Marks: A1=" + assessmentMarks[0] + ", A2=" + assessmentMarks[1] + ", A3=" + assessmentMarks[2] +
-                ", Total Mark: " + getTotalMark();
+        return "Name: " + firstName + " " + lastName
+                + ", Student ID: " + studentID
+                + ", Assessment Marks: A1=" + assessmentMarks[0] + ", A2=" + assessmentMarks[1] + ", A3=" + assessmentMarks[2]
+                + ", Total Mark: " + getTotalMark();
+    }
+
+    @Override
+    public int compareTo(Student o) {
+
+        if (this.total < o.total) {
+            a = -1;
+        }
+        if (this.total > o.total) {
+            a = 1;
+        }
+        //return Double.compare(this.total, o .total);
+        return a;
     }
 }
 
 public class StudentMarkReader {
+
     public static void main(String[] args) {
-        
-        
-        String fileName = "C:\\Users\\User\\Documents\\NetBeansProjects\\assignement\\src\\main\\java\\com\\mycompany\\assignement\\prog5001_students_grade_2022.txt"; // Replace with your file path
+        String fileName = "C:\\Users\\dell\\Desktop\\prog5001_students_grade_2022.txt"; 
         Student[] students = new Student[100];
         int count = 0;
         //Ask user number from 1 to 4 
@@ -54,7 +66,7 @@ public class StudentMarkReader {
         Scanner sca = new Scanner(System.in);
         String choice;
         do {
-            System.out.print("Enter the number 1 to 4: ");
+            System.out.print("Enter the number 1 to 4 according to the functional requirements: ");
             int input = sca.nextInt();
 
             switch (input) {
@@ -156,8 +168,8 @@ public class StudentMarkReader {
         }
         return count;
     }
-    
-        public static void threshold(int count, Student[] students) {
+
+    public static void threshold(int count, Student[] students) {
         //F3 input the threshold and print thr info of student whose total is less than threshold
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the threshold for total marks: ");
@@ -170,7 +182,31 @@ public class StudentMarkReader {
             }
         }
     }
-        
+
+    public static void quickSort(Student[] students, int low, int high) {
+        if (low < high) {
+            int pi = partition(students, low, high);
+            quickSort(students, low, pi - 1);
+            quickSort(students, pi + 1, high);
+        }
     }
 
+    public static int partition(Student[] students, int low, int high) {
+        Student pivot = students[high];
+        int i = low - 1;
 
+        for (int j = low; j < high; j++) {
+            if (students[j].compareTo(pivot) < 0) {
+                i++;
+                Student temp = students[i];
+                students[i] = students[j];
+                students[j] = temp;
+            }
+        }
+        Student temp = students[i + 1];
+        students[i + 1] = students[high];
+        students[high] = temp;
+
+        return i + 1;
+    }
+}
